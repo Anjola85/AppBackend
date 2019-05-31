@@ -2,7 +2,7 @@ const express = require('express');
 route = express.Router();
 const userController = require('./controller/user-controller');
 const billerController = require('./controller/biller-controller');
-const packageController = require('./controller/package.controller');
+const packageController = require('./controller/package-controller');
 const payController = require('./controller/payStack-controller');
 const passport = require('passport');
 

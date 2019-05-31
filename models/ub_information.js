@@ -10,6 +10,6 @@ const schema = new mongoose.Schema({
         type: mongoose.Types.ObjectId,
         ref: 'User',
     },
-});
+}, { timeStamps: true });
 
 module.exports = mongoose.model('ub_information', schema);

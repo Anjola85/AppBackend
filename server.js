@@ -35,14 +35,5 @@ connection.on('error', (err) => {
     console.log("MongoDB connection error. Please make sure MongoDB is running. " + err);
 });
 
-
-app.use(function(req, res, next) {
-
-    res.header("Access-Control-Allow-Origin", "*");
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept,Authorization,x-api-key");
-    next();
-});
-
 app.listen(port);
 console.log('Server running on: http://localhost:' + port);

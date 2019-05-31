@@ -39,22 +39,43 @@ exports.registerPackage = (req, res) => {
 }
 
 exports.getPackages = (req, res) => {
-    Package.find({}, (err, package) => {
-        if (err) {
-            return res.status(500).json({
-                status: false,
-                message: 'Unable to fetch packages'
-            });
-        }
-        if (package) {
-            return res.status(200).json({
-                status: true,
-                message: 'Package successfully fetched',
-                data: package
-            });
-        }
-    });
+    Package.find()
+        .populate('biller_id')
+        .exec(function(err, cb) {
+            if (err) {
+                return res.status(400).json({
+                    message: 'Can\'t get biller information',
+                    status: false
+                });
+            }
+            if (cb) {
+                return res.status(200).json({
+                    message: 'Biller inforomation successfully fetched',
+                    status: true,
+                    data: cb
+                })
+            }
+            console.log(cb.biller_id.biller_name)
+        })
 }
+
+// exports.getPackages = (req, res) => {
+//     Package.find({}, (err, package) => {
+//         if (err) {
+//             return res.status(500).json({
+//                 status: false,
+//                 message: 'Unable to fetch packages'
+//             });
+//         }
+//         if (package) {
+//             return res.status(200).json({
+//                 status: true,
+//                 message: 'Package successfully fetched',
+//                 data: package
+//             });
+//         }
+//     });
+// }
 
 exports.getPackageById = (req, res) => {
     Package.findById(req.params.id, (err, package) => {
