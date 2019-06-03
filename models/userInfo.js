@@ -11,8 +11,12 @@ const schema = new mongoose.Schema({
         ref: 'User',
     },
     transaction_id: {
+        // eg: SMARTCARD NUMBER
+        type: String
+    },
+    reference_number: {
         type: String
     }
 }, { timeStamps: true });
 
-module.exports = mongoose.model('Transaction', schema);
+module.exports = mongoose.model('userInfo', schema);

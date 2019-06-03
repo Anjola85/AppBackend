@@ -1,4 +1,5 @@
 const Biller = require('../models/biller');
+const Package = require('../models/package');
 const config = require('../config/config');
 
 
@@ -39,7 +40,11 @@ exports.registerBiller = (req, res, next) => {
 }
 
 exports.getBiller = (req, res) => {
-    Biller.find({}, (err, biller) => {
+    let query = {};
+    if (req.query.types) {
+        query.types = req.query.types;
+    }
+    Biller.find(query, (err, biller) => {
         if (err) {
             return res.status(500).json({
                 status: false,
@@ -77,7 +82,8 @@ exports.getBillerById = (req, res) => {
 
 
 exports.updateBiller = (req, res, next) => {
-    Biller.findById(req.params.id, (err, biller) => {
+    id = req.params.id
+    Biller.findById(id, (err, biller) => {
         if (err) {
             return res.status(500).json({
                 status: false,
@@ -88,9 +94,8 @@ exports.updateBiller = (req, res, next) => {
         console.log('id', id);
         console.log('Body:', req.body);
 
-        biller.biller_name = req.body.biller_name;
-        biller.description = req.body.description;
-        biller.image = req.body.image;
+
+        biller.types = req.body.types;
 
         biller.save((err, updateBiller) => {
             if (err) {

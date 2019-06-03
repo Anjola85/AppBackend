@@ -5,6 +5,7 @@ const billerController = require('./controller/biller-controller');
 const packageController = require('./controller/package-controller');
 const payController = require('./controller/payStack-controller');
 const passport = require('passport');
+const userInfo = require('./controller/userInfo-controller');
 
 route.get('/', (req, res) => {
     return res.send('Hello, this is the API!');
@@ -34,11 +35,12 @@ route.post('/registerBiller', billerController.registerBiller);
 
 route.get('/billers', billerController.getBiller);
 
-route.get('/biller:/id', billerController.getBillerById);
+route.get('/biller/:id', billerController.getBillerById);
 
 route.put('/biller/:id', billerController.updateBiller);
 
 route.delete('/biller/:id', billerController.deleteBiller);
+
 
 // Packages routes
 route.post('/registerPackage', packageController.registerPackage);
@@ -46,5 +48,9 @@ route.get('/packages', packageController.getPackages);
 route.get('/packages/:id', packageController.getPackageById);
 route.delete('/package/:id', packageController.deletePackage);
 route.put('/package/:id', packageController.updatePackage);
+
+// User information
+route.post('/createInfo', userInfo.postUserInfo);
+route.get('/userInfo', userInfo.getUserInfo);
 
 module.exports = route;

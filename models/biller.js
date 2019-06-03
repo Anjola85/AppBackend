@@ -15,6 +15,10 @@ const schema = new mongoose.Schema({
         type: String,
         required: true
     },
+    types: {
+        type: String,
+        required: true
+    }
 }, { timeStamps: true });
 
 module.exports = mongoose.model('Biller', schema);
