@@ -39,7 +39,11 @@ exports.registerPackage = (req, res) => {
 }
 
 exports.getPackages = (req, res) => {
-    Package.find()
+    let query = {};
+    if (req.query.biller_id) {
+        query.biller_id = req.query.biller_id
+    }
+    Package.find(query)
         .populate('biller_id')
         .exec(function(err, cb) {
             if (err) {
@@ -54,8 +58,13 @@ exports.getPackages = (req, res) => {
                     status: true,
                     data: cb
                 })
+            } else {
+                return res.status(404).json({
+                    message: 'biller name does not exist',
+                    status: false,
+                    code: 404
+                })
             }
-            console.log(cb.biller_id.biller_name)
         })
 }
 

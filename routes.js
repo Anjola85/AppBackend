@@ -4,8 +4,10 @@ const userController = require('./controller/user-controller');
 const billerController = require('./controller/biller-controller');
 const packageController = require('./controller/package-controller');
 const payController = require('./controller/payStack-controller');
+const cardController = require('./controller/card-controller');
 const passport = require('passport');
 const userInfo = require('./controller/userInfo-controller');
+const transactionController = require('./controller/transaction-controller');
 
 route.get('/', (req, res) => {
     return res.send('Hello, this is the API!');
@@ -52,5 +54,14 @@ route.put('/package/:id', packageController.updatePackage);
 // User information
 route.post('/createInfo', userInfo.postUserInfo);
 route.get('/userInfo', userInfo.getUserInfo);
+// route.put('/updateInfo/:id', userInfo.putUserInfo);
+
+// card routes
+route.post('/createCard', cardController.createCard);
+route.post('/cardValidation', cardController.validateCard);
+
+// transaction routes
+route.get('/transaction', transactionController.getTransaction);
+route.post('/createTransaction', transactionController.registerTransaction);
 
 module.exports = route;

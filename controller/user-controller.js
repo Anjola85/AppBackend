@@ -74,7 +74,7 @@ exports.loginUser = (req, res) => {
                     data: user
                 });
             } else {
-                return res.status(400).json({ msg: 'The email or password is incorrect' });
+                return res.status(400).json({ msg: 'The username or password is incorrect' });
             }
         })
     });

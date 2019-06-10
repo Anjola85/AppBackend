@@ -21,11 +21,12 @@ exports.getUserInfo = (req, res) => {
                     status: true,
                     data: cb
                 });
-            }
-            if (!cb) {
-                return res.status(400).json({
-                    message: 'Record doesn\'t exist',
-                    status: false
+            } else {
+                return res.status(404).json({
+                    message: 'INVALID!! Record doesn\'t exist',
+                    status: false,
+                    data: err,
+                    code: 404
                 })
             }
         });
@@ -68,3 +69,33 @@ exports.postUserInfo = (req, res) => {
         });
     });
 }
+
+// exports.putUserInfo = (req, res) => {
+//     let id = req.params.id;
+//     userInfo.findById(id, (err, info) => {
+//         if (err) {
+//             return res.status(500).json({
+//                 status: false,
+//                 message: 'Unable to get user information'
+//             });
+//         }
+
+//         info.transaction_id = req.body.transaction_id;
+
+//         info.save((err, updateInfo) => {
+//             if (err) {
+//                 return res.status(500).json({
+//                     status: false,
+//                     message: 'Unable to update information'
+//                 });
+//             }
+//             if (updateInfo) {
+//                 return res.status(200).json({
+//                     status: true,
+//                     message: 'Information successfully fetched',
+//                     data: updateInfo
+//                 })
+//             }
+//         })
+//     })
+// }

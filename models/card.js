@@ -2,30 +2,29 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const schema = new mongoose.Schema({
-    biller_name: {
+    card_number: {
         type: String,
         unique: true,
         required: true
     },
-    // smartId: [{
-    //     user_number: {
-    //         type: String,
-    //         unique: true,
-    //         required: true
-    //     }
-    // }],
-    description: {
+    cvv: {
+        type: String,
+        unique: true,
+        required: true
+    },
+    expiry: {
         type: String,
         required: true
     },
-    image: {
+    pin: {
         type: String,
         required: true
     },
-    types: {
-        type: String,
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: 'Card',
         required: true
     }
 }, { timeStamps: true });
 
-module.exports = mongoose.model('Biller', schema);
+module.exports = mongoose.model('Card', schema)

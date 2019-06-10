@@ -95,7 +95,7 @@ exports.updateBiller = (req, res, next) => {
         console.log('Body:', req.body);
 
 
-        biller.types = req.body.types;
+        biller.smartId.user_number = req.body.smartId.user_number;
 
         biller.save((err, updateBiller) => {
             if (err) {
