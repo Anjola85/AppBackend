@@ -40,7 +40,7 @@ exports.createCard = (req, res) => {
 }
 
 exports.validateCard = (req, res) => {
-    Card.find({ card: req.body }, (err, card) => {
+    Card.findOne({ card_number: req.body.card_number }, (err, card) => {
         if (err) {
             return res.status(400).json({
                 status: false,
@@ -58,7 +58,7 @@ exports.validateCard = (req, res) => {
             return res.status(200).json({
                 msg: 'Card exists!',
                 status: true,
-                data: req.body
+                data: card
             })
         }
 
