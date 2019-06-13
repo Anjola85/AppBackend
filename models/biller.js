@@ -7,13 +7,6 @@ const schema = new mongoose.Schema({
         unique: true,
         required: true
     },
-    // smartId: [{
-    //     user_number: {
-    //         type: String,
-    //         unique: true,
-    //         required: true
-    //     }
-    // }],
     description: {
         type: String,
         required: true

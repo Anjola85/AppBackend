@@ -65,7 +65,7 @@ exports.registerTransaction = (req, res) => {
                 data: err
             });
         }
-        if (transaction) {
+        if (!transaction) {
             return res.status(404).json({
                 message: 'Could not perform payment',
                 code: 404

@@ -61,7 +61,7 @@ route.post('/createCard', cardController.createCard);
 route.post('/cardValidation', cardController.validateCard);
 
 // transaction routes
-route.get('/transaction', transactionController.getTransaction);
+route.get('/transactions', transactionController.getTransaction);
 route.post('/createTransaction', transactionController.registerTransaction);
 
 module.exports = route;
