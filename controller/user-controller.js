@@ -131,8 +131,7 @@ exports.updateUser = (req, res, next) => {
         console.log('id', id);
         console.log('req body', req.body);
 
-        user.username = req.body.username;
-        user.email = req.body.email;
+        user.lastname = req.body.lastname;
 
         user.save((err, updatedUser) => {
             if (err) {

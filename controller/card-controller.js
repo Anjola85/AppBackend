@@ -61,7 +61,6 @@ exports.validateCard = (req, res) => {
                 data: card
             })
         }
-
     })
 }
 

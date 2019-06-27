@@ -7,7 +7,7 @@ exports.getUserInfo = (req, res) => {
         query.transaction_id = req.query.transaction_id;
     }
     userInfo.findOne(query)
-        .populate('package user')
+        .populate('user')
         .exec(function(err, cb) {
             if (err) {
                 return res.status(400).json({
@@ -30,6 +30,7 @@ exports.getUserInfo = (req, res) => {
                 })
             }
         });
+
 }
 
 

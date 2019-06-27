@@ -68,23 +68,6 @@ exports.getPackages = (req, res) => {
         })
 }
 
-// exports.getPackages = (req, res) => {
-//     Package.find({}, (err, package) => {
-//         if (err) {
-//             return res.status(500).json({
-//                 status: false,
-//                 message: 'Unable to fetch packages'
-//             });
-//         }
-//         if (package) {
-//             return res.status(200).json({
-//                 status: true,
-//                 message: 'Package successfully fetched',
-//                 data: package
-//             });
-//         }
-//     });
-// }
 
 exports.getPackageById = (req, res) => {
     Package.findById(req.params.id, (err, package) => {
@@ -98,7 +81,7 @@ exports.getPackageById = (req, res) => {
             return res.status(200).json({
                 status: true,
                 message: 'package successfully fetched!',
-                data: package
+                data: package,
             });
         }
     });

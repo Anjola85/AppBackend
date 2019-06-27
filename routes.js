@@ -34,20 +34,16 @@ route.post('/pay', payController.payBills);
 
 // Biller routes
 route.post('/registerBiller', billerController.registerBiller);
-
 route.get('/billers', billerController.getBiller);
-
 route.get('/biller/:id', billerController.getBillerById);
-
 route.put('/biller/:id', billerController.updateBiller);
-
 route.delete('/biller/:id', billerController.deleteBiller);
 
 
 // Packages routes
 route.post('/registerPackage', packageController.registerPackage);
 route.get('/packages', packageController.getPackages);
-route.get('/packages/:id', packageController.getPackageById);
+route.get('/package/:id', packageController.getPackageById);
 route.delete('/package/:id', packageController.deletePackage);
 route.put('/package/:id', packageController.updatePackage);
 
