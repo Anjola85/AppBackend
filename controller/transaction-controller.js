@@ -1,60 +1,5 @@
 const Transaction = require('../models/tansaction');
 
-// exports.registerTransaction = (req, res) => {
-//     Transaction.findOne({ transaction_reference: req.body.transaction_reference }, (err, transaction) => {
-//         if (err) {
-//             return res.status(400).json({
-//                 message: 'An error occured',
-//                 status: false,
-//                 code: 400
-//             })
-//         }
-//         if (transaction) {
-//             return res.status(406).json({
-//                 message: 'Invalid transaction',
-//                 status: false,
-//                 code: 400,
-//                 data: err
-//             })
-//         } else {
-//             Transaction.findOne({ card: req.body.card }, (err, makeTransaction) => {
-//                 if (err) {
-//                     return res.status(400).json({
-//                         message: err.message,
-//                         status: false
-//                     })
-//                 }
-//                 if (!makeTransaction) {
-//                     return res.status(404).json({
-//                         message: 'Card cannot be found!',
-//                         status: false,
-//                         code: 404
-//                     })
-//                 }
-//                 let newTransaction = new Transaction(req.body);
-//                 newTransaction.save((err, cb) => {
-//                     if (err) {
-//                         console.log('err:', err);
-//                         return res.status(400).json({
-//                             message: err.message,
-//                             status: false
-//                         });
-//                     }
-//                     if (cb) {
-//                         console.log('data:', cb);
-//                         return res.status(201).json({
-//                             message: 'Transaction record successfully created!',
-//                             status: true,
-//                             code: 201,
-//                             data: cb
-//                         })
-//                     }
-//                 })
-//             })
-//         }
-//     })
-// }
-
 exports.registerTransaction = (req, res) => {
     Transaction.findOne({ transaction_ref: req.body.transaction_ref }, (err, transaction) => {
         if (err) {
@@ -104,7 +49,8 @@ exports.getTransaction = (req, res) => {
             if (err) {
                 return res.status(400).json({
                     message: 'cannot get transactions',
-                    status: false
+                    status: false,
+                    code: 400
                 });
             }
             if (cb) {
@@ -121,4 +67,22 @@ exports.getTransaction = (req, res) => {
                 })
             }
         })
+}
+
+exports.getTransactionById = (req, res) => {
+    Transaction.findById(req.params.id, (err, transaction) => {
+        if (err) {
+            return res.status(500).json({
+                message: 'Unable to fetch transaction',
+                status: false
+            });
+        }
+        if (transaction) {
+            return res.status(200).json({
+                status: true,
+                message: 'transaction data successfully fetched',
+                data: transaction
+            });
+        }
+    })
 }

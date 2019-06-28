@@ -59,5 +59,6 @@ route.post('/cardValidation', cardController.validateCard);
 // transaction routes
 route.get('/transactions', transactionController.getTransaction);
 route.post('/createTransaction', transactionController.registerTransaction);
+route.get('/transaction/:id', transactionController.getTransactionById);
 
 module.exports = route;

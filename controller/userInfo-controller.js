@@ -11,8 +11,8 @@ exports.getUserInfo = (req, res) => {
         .exec(function(err, cb) {
             if (err) {
                 return res.status(400).json({
-                    status: false,
-                    message: 'Unable to get Transactions'
+                    message: 'Unable to get Transactions',
+                    status: fasle
                 });
             }
             if (cb) {
