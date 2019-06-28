@@ -1,36 +1,47 @@
 const userInfo = require('../models/userInfo');
 const config = require('../config/config');
+const _ = require('underscore');
 
-exports.getUserInfo = (req, res) => {
+exports.getUserInfo = (req, res, next) => {
     let query = {};
     if (req.query.transaction_id) {
         query.transaction_id = req.query.transaction_id;
     }
-    userInfo.findOne(query)
-        .populate('user')
-        .exec(function(err, cb) {
-            if (err) {
-                return res.status(400).json({
-                    message: 'Unable to get Transactions',
-                    status: fasle
-                });
-            }
-            if (cb) {
-                return res.status(200).json({
-                    message: 'Transaction information successfully fetched',
-                    status: true,
-                    data: cb
-                });
-            } else {
-                return res.status(404).json({
-                    message: 'INVALID!! Record doesn\'t exist',
-                    status: false,
-                    data: err,
-                    code: 404
-                })
-            }
+    console.log('query:', query);
+    if (req.query.hasOwnProperty('transaction_id') && !_.isEmpty(query)) {
+        console.log("function here");
+        userInfo.findOne(query)
+            .populate('user')
+            .exec(function(err, transaction) {
+                if (err) {
+                    return res.status(400).json({
+                        message: 'Unable to get Transactions',
+                        status: fasle
+                    });
+                }
+                if (transaction) {
+                    return res.status(200).json({
+                        message: 'Transaction information successfully fetched',
+                        status: true,
+                        data: transaction
+                    });
+                }
+                if (!transaction) {
+                    return res.status(404).json({
+                        message: 'INVALID!! Record doesn\'t exist',
+                        status: false,
+                        data: err,
+                        code: 404
+                    });
+                }
+            });
+    } else {
+        return res.json({
+            message: 'Field cannot be empty',
+            status: false,
+            code: 400
         });
-
+    }
 }
 
 
