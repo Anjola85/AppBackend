@@ -19,6 +19,6 @@ const schema = new mongoose.Schema({
         type: String,
         required: true
     }
-}, { timeStamps: true });
+}, { timestamps: true });
 
 module.exports = mongoose.model('Biller', schema);

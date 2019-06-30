@@ -48,6 +48,7 @@ exports.getBiller = (req, res) => {
         if (err) {
             return res.status(500).json({
                 status: false,
+                code: 500,
                 message: 'Unable to fetch billers'
             });
         }
@@ -55,6 +56,7 @@ exports.getBiller = (req, res) => {
             return res.status(200).json({
                 status: true,
                 message: 'Billers successfully fetched',
+                code: 200,
                 data: biller
             });
         }
