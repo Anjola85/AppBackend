@@ -30,6 +30,7 @@ route.get('/special', passport.authenticate('jwt', { session: false }), (req, re
     return res.json({ msg: `Welcome ${req.user.email}!` });
 });
 
+// paystack
 route.post('/pay', payController.payBills);
 
 // Biller routes

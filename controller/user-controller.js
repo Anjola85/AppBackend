@@ -1,21 +1,40 @@
 const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 const config = require('../config/config');
+const UserValidation = require('../validator/user-validator');
+
 
 function createToken(user) {
-    return jwt.sign({ id: user.id, email: user.email }, config.jwtSecret, {
+    return jwt.sign({
+        id: user.id,
+        email: user.email
+    }, config.jwtSecret, {
         expiresIn: 86400
     });
 }
 
-exports.registerUser = (req, res) => {
+exports.registerUser = (req, res, next) => {
+    let validation = UserValidation.validation(req.body);
+    if (validation.fails()) {
+        return res.status(400).json({
+            status: false,
+            message: 'Invalid inputs',
+            messages: validation.errors,
+        });
+    }
+    if (req.body.phoneNumber.length === 11) {
+        let telephone = JSON.stringify(req.body.phoneNumber).substring(2, 12);
+        req.body.phoneNumber = '+234' + telephone;
+    }
     if (req.body.password !== req.body.confirm_password) {
         res.status(400).json({
             status: false,
             message: 'Password don\'t match'
         })
     } else {
-        User.findOne({ username: req.body.username }, (err, user) => {
+        User.findOne({
+            username: req.body.username
+        }, (err, user) => {
             if (err) {
                 return res.status(400).json({
                     message: "oops an error ",
@@ -25,9 +44,11 @@ exports.registerUser = (req, res) => {
                 });
             }
 
-            if (user) {
-                return res.status(400).json({ 'msg': 'The user already exists' });
-            }
+            // if (user) {
+            //     return res.status(400).json({
+            //         'msg': 'The user already exists'
+            //     });
+            // }
 
             let newUser = new User(req.body);
             newUser.save((err, user) => {
@@ -53,16 +74,24 @@ exports.registerUser = (req, res) => {
 
 exports.loginUser = (req, res) => {
     if (!req.body.username || !req.body.password) {
-        return res.status(400).json({ 'msg': 'You need to fill in the required fields' });
+        return res.status(400).json({
+            'msg': 'You need to fill in the required fields'
+        });
     }
 
-    User.findOne({ username: req.body.username }, (err, user) => {
+    User.findOne({
+        username: req.body.username
+    }, (err, user) => {
         if (err) {
-            return res.status(400).json({ 'msg': err });
+            return res.status(400).json({
+                'msg': err
+            });
         }
 
         if (!user) {
-            return res.status(400).json({ 'msg': 'The user does not exist' });
+            return res.status(400).json({
+                'msg': 'The user does not exist'
+            });
         }
 
         user.comparePassword(req.body.password, (err, isMatch) => {
@@ -74,7 +103,9 @@ exports.loginUser = (req, res) => {
                     data: user
                 });
             } else {
-                return res.status(400).json({ msg: 'The username or password is incorrect' });
+                return res.status(400).json({
+                    msg: 'The username or password is incorrect'
+                });
             }
         })
     });
@@ -131,7 +162,7 @@ exports.updateUser = (req, res, next) => {
         console.log('id', id);
         console.log('req body', req.body);
 
-        user.lastname = req.body.lastname;
+        user.phoneNumber = req.body.phoneNumber;
 
         user.save((err, updatedUser) => {
             if (err) {
@@ -153,7 +184,9 @@ exports.updateUser = (req, res, next) => {
 
 exports.deleteUser = (req, res) => {
     let id = req.params.id;
-    User.findOne({ _id: id }, (err, user) => {
+    User.findOne({
+        _id: id
+    }, (err, user) => {
         if (err) {
             return res.status(500).json({
                 status: false,
