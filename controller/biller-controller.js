@@ -96,7 +96,7 @@ exports.updateBiller = (req, res, next) => {
         console.log('id', id);
         console.log('Body:', req.body);
 
-
+        // biller.price = req.body.price;
 
         biller.save((err, updateBiller) => {
             if (err) {

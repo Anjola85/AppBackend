@@ -44,11 +44,11 @@ exports.registerUser = (req, res, next) => {
                 });
             }
 
-            // if (user) {
-            //     return res.status(400).json({
-            //         'msg': 'The user already exists'
-            //     });
-            // }
+            if (user) {
+                return res.status(400).json({
+                    'msg': 'The user already exists'
+                });
+            }
 
             let newUser = new User(req.body);
             newUser.save((err, user) => {
@@ -57,7 +57,7 @@ exports.registerUser = (req, res, next) => {
                     return res.status(400).json({
                         message: err.message,
                         status: false
-                    });
+                    })
                 }
                 if (user) {
                     console.log("data", user);

@@ -9,7 +9,6 @@ function validation(body) {
         username: 'required',
         phoneNumber: 'required',
         email: 'required|email',
-        age: 'min:18'
     };
 
     let validator = new Validator(body, rules);
