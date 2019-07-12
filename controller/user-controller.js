@@ -84,13 +84,17 @@ exports.loginUser = (req, res) => {
     }, (err, user) => {
         if (err) {
             return res.status(400).json({
-                'msg': err
+                message: err,
+                code: 400,
+                status: fasle
             });
         }
 
         if (!user) {
-            return res.status(400).json({
-                'msg': 'The user does not exist'
+            return res.status(404).json({
+                message: 'The user does not exist',
+                code: 404,
+                status: false
             });
         }
 
@@ -100,11 +104,21 @@ exports.loginUser = (req, res) => {
                     token: createToken(user),
                     message: 'User logged in successfully!',
                     status: true,
-                    data: user
+                    data: user,
+                    code: 200
                 });
+            }
+            if (!isMatch) {
+                return res.status(404).json({
+                    message: 'Invalid username and password!',
+                    status: false,
+                    code: 404
+                })
             } else {
                 return res.status(400).json({
-                    msg: 'The username or password is incorrect'
+                    message: 'Something went wrong',
+                    code: 400,
+                    status: false
                 });
             }
         })
@@ -155,14 +169,15 @@ exports.updateUser = (req, res, next) => {
         if (err) {
             return res.status(500).json({
                 status: false,
-                message: 'Unable to find get user info'
+                message: 'Unable to  get user info'
             });
         }
 
         console.log('id', id);
         console.log('req body', req.body);
 
-        user.phoneNumber = req.body.phoneNumber;
+        user.password = req.body.password;
+        user.confirm_password = req.body.confirm_password;
 
         user.save((err, updatedUser) => {
             if (err) {
@@ -180,6 +195,65 @@ exports.updateUser = (req, res, next) => {
             }
         });
     });
+};
+
+
+exports.changePassword = (req, res) => {
+    if (!req.body.old_password) {
+        return res.status(400).json({
+            'msg': 'You need to fill in the required fields'
+        });
+    }
+
+    if (req.params.id) {
+        User.findById(req.params.id, (err, user) => {
+            user.comparePassword(req.body.old_password, (err, isMatch) => {
+                if (isMatch && !err) {
+                    if (req.body.new_password !== req.body.confirm_password) {
+                        return res.status(400).json({
+                            message: 'Passwords dont\' match',
+                            status: false,
+                            code: 400
+                        })
+                    }
+                    user.password = req.body.new_password;
+                    user.confirm_password = req.body.confirm_password;
+                    user.save((err, updatedUser) => {
+                        if (err) {
+                            return res.status(500).json({
+                                status: false,
+                                message: 'Unable to update password',
+                                code: 500
+                            });
+                        }
+                        if (updatedUser) {
+                            return res.status(200).json({
+                                status: true,
+                                message: 'Password successfully changed',
+                                data: updatedUser,
+                                code: 200
+                            })
+                        }
+                    });
+                }
+                if (!isMatch) {
+                    return res.status(404).json({
+                        message: 'Invalid password!',
+                        status: false,
+                        code: 404
+                    })
+                }
+                if (err) {
+                    return res.status(400).json({
+                        message: err.message,
+                        status: fasle,
+                        code: 4000
+                    })
+                }
+            })
+        })
+    }
+
 };
 
 exports.deleteUser = (req, res) => {

@@ -30,6 +30,9 @@ route.get('/special', passport.authenticate('jwt', { session: false }), (req, re
     return res.json({ msg: `Welcome ${req.user.email}!` });
 });
 
+// change password
+route.post('/user/changePassword/:id', userController.changePassword);
+
 // paystack
 route.post('/pay', payController.payBills);
 
