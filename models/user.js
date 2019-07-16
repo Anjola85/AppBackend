@@ -21,6 +21,12 @@ const UserSchema = new mongoose.Schema({
         unique: true,
         trim: true
     },
+    gender: {
+        type: String
+    },
+    dob: {
+        type: Date
+    },
     phoneNumber: {
         type: String,
         unique: true,

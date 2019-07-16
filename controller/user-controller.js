@@ -68,7 +68,7 @@ exports.registerUser = (req, res, next) => {
                     });
                 }
             });
-        })
+        });
     }
 };
 
@@ -176,14 +176,18 @@ exports.updateUser = (req, res, next) => {
         console.log('id', id);
         console.log('req body', req.body);
 
-        user.password = req.body.password;
-        user.confirm_password = req.body.confirm_password;
+        user.firstname = req.body.firstname;
+        user.lastname = req.body.lastname;
+        user.gender = req.body.gender;
+        user.dob = req.body.dob;
+
 
         user.save((err, updatedUser) => {
             if (err) {
-                return res.status(500).json({
+                return res.status(400).json({
                     status: false,
-                    message: 'Unable to update user'
+                    message: err,
+                    messages: 'Unable to update user'
                 });
             }
             if (updatedUser) {

@@ -5,8 +5,13 @@ const mongoose = require('mongoose');
 const config = require('./config/config');
 const port = process.env.PORT || 5000;
 const cors = require("cors");
+const morgan = require('morgan');
+
 
 const app = express();
+
+app.use(morgan('dev'));
+
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());

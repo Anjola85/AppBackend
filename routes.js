@@ -8,6 +8,7 @@ const cardController = require('./controller/card-controller');
 const passport = require('passport');
 const userInfo = require('./controller/userInfo-controller');
 const transactionController = require('./controller/transaction-controller');
+const networkController = require('./controller/mobile_network.controller');
 
 route.get('/', (req, res) => {
     return res.send('Hello, this is the API!');
@@ -64,5 +65,9 @@ route.post('/cardValidation', cardController.validateCard);
 route.get('/transactions', transactionController.getTransaction);
 route.post('/createTransaction', transactionController.registerTransaction);
 route.get('/transaction/:id', transactionController.getTransactionById);
+
+// purchase Airtime
+route.post('/airtimePurchase', networkController.payAirtime);
+
 
 module.exports = route;

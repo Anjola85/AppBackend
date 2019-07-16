@@ -1,4 +1,4 @@
-const Transaction = require('../models/tansaction');
+const Transaction = require('../models/transaction');
 
 exports.registerTransaction = (req, res) => {
     Transaction.findOne({ transaction_ref: req.body.transaction_ref }, (err, transaction) => {
