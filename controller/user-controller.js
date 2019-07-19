@@ -2,6 +2,7 @@ const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 const config = require('../config/config');
 const UserValidation = require('../validator/user-validator');
+const _ = require('underscore');
 
 
 function createToken(user) {
@@ -176,11 +177,7 @@ exports.updateUser = (req, res, next) => {
         console.log('id', id);
         console.log('req body', req.body);
 
-        user.firstname = req.body.firstname;
-        user.lastname = req.body.lastname;
-        user.gender = req.body.gender;
-        user.dob = req.body.dob;
-
+        _.assign(user, req.body);
 
         user.save((err, updatedUser) => {
             if (err) {
@@ -205,7 +202,7 @@ exports.updateUser = (req, res, next) => {
 exports.changePassword = (req, res) => {
     if (!req.body.old_password) {
         return res.status(400).json({
-            'msg': 'You need to fill in the required fields'
+            message: 'You need to fill in the required fields'
         });
     }
 
@@ -242,7 +239,7 @@ exports.changePassword = (req, res) => {
                 }
                 if (!isMatch) {
                     return res.status(404).json({
-                        message: 'Invalid password!',
+                        message: 'Invalid password',
                         status: false,
                         code: 404
                     })

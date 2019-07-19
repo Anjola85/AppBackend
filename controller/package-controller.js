@@ -1,5 +1,7 @@
 const Package = require('../models/package');
 const config = require('../config/config');
+const _ = require('underscore');
+
 
 exports.registerPackage = (req, res) => {
     Package.findOne({ package_name: req.body.package_name }, (err, package) => {
@@ -100,10 +102,7 @@ exports.updatePackage = (req, res) => {
         console.log('id:', id);
         console.log('body:', req.body);
 
-        package.package_name = req.body.package_name;
-        package.image = req.body.image;
-        package.amount = req.body.amount;
-        package.biller_id = req.body.biller_id;
+        _.assign(package, req.body);
 
         package.save((err, package) => {
             if (err) {
