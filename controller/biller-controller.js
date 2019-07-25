@@ -1,6 +1,7 @@
 const Biller = require('../models/biller');
 const Package = require('../models/package');
 const config = require('../config/config');
+const _ = require('underscore');
 
 
 exports.registerBiller = (req, res, next) => {
@@ -11,7 +12,6 @@ exports.registerBiller = (req, res, next) => {
                 message: "oops an error occured",
                 status: false,
                 code: 400,
-                data: err,
             });
         }
         if (biller) {
@@ -96,7 +96,7 @@ exports.updateBiller = (req, res, next) => {
         console.log('id', id);
         console.log('Body:', req.body);
 
-        // biller.price = req.body.price;
+        _.assign(biller, req.body);
 
         biller.save((err, updateBiller) => {
             if (err) {

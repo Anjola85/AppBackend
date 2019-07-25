@@ -44,6 +44,7 @@ exports.getTransaction = (req, res) => {
         query.user_id = req.query.user_id
     }
     Transaction.find(query)
+        .sort({ createdAt: -1 })
         .populate('user_id card package')
         .exec(function(err, cb) {
             if (err) {

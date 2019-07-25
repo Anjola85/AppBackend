@@ -13,6 +13,12 @@ exports.payAirtime = (req, res, next) => {
             status: false
         })
     }
+    if (req.body.amount === null || req.body.amount === '' || req.body.amount === 0) {
+        return res.status(400).json({
+            message: 'Amount cannot be zero!',
+            status: false
+        })
+    }
     Purchase.findOne({ user_id: req.body.user_id }, (err, purchase) => {
         if (err) {
             return res.status(400).json({

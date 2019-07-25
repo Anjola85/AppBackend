@@ -22,6 +22,9 @@ const schema = new mongoose.Schema({
         required: true,
         unique: true
     },
+    channel_id: {
+        type: String
+    }
 }, { timestamps: true });
 
 module.exports = mongoose.model('Transaction', schema);
