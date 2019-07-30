@@ -65,6 +65,8 @@ route.post('/cardValidation', cardController.validateCard);
 route.get('/transactions', transactionController.getTransaction);
 route.post('/createTransaction', transactionController.registerTransaction);
 route.get('/transaction/:id', transactionController.getTransactionById);
+// filter by date
+route.get('/transaction', transactionController.getTransactionByDate);
 
 // purchase Airtime
 route.post('/airtimePurchase', networkController.payAirtime);

@@ -9,13 +9,11 @@ const schema = new mongoose.Schema({
     },
     image: {
         type: String,
-        required: true,
         trim: true,
     },
     amount: {
         type: Number,
         trim: true,
-        required: true,
     },
     biller_id: {
         type: Schema.Types.ObjectId,
